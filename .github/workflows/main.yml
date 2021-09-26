@@ -36,32 +36,44 @@ on:
 
 jobs:
   build:
-
+    name: Build
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v1
-    - name: Install Node.js
-      uses: actions/setup-node@v1
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@master
       with:
-        node-version: '10.x'
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        script: whoami
+  # build:
 
-    - name: Install npm dependencies
-      run: npm install
+  #   runs-on: ubuntu-latest
 
-    - name: install ncc
-      run: npm i -g @vercel/ncc
+  #   steps:
+  #   - uses: actions/checkout@v1
+  #   - name: Install Node.js
+  #     uses: actions/setup-node@v1
+  #     with:
+  #       node-version: '10.x'
 
-    - name: Run build task
-      run: npm run build --if-present
+  #   - name: Install npm dependencies
+  #     run: npm install
 
-    - name: Deploy to Server
-      uses: easingthemes/ssh-deploy@main
-      env:
-          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
-          ARGS: "-rltgoDzvOa  --delete"
-          SOURCE: "dist/"
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: ${{ secrets.REMOTE_TARGET }}
-          EXCLUDE: "/dist/, /node_modules/"
+  #   - name: install ncc
+  #     run: npm i -g @vercel/ncc
+
+  #   - name: Run build task
+  #     run: npm run build --if-present
+
+  #   - name: Deploy to Server
+  #     uses: easingthemes/ssh-deploy@main
+  #     env:
+  #         SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+  #         ARGS: "-rltgoDzvOa  --delete"
+  #         SOURCE: "dist/"
+  #         REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+  #         REMOTE_USER: ${{ secrets.REMOTE_USER }}
+  #         TARGET: ${{ secrets.REMOTE_TARGET }}
+  #         EXCLUDE: "/dist/, /node_modules/"
