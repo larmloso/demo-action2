@@ -25,6 +25,7 @@ jobs:
 
       - name: Hello world action step
         uses: ./ # Uses an action in the root directory
+        run: npm i
         id: hello
         with:
           who-to-greet: 'Mona the Octocat'
