@@ -5,16 +5,29 @@ inputs:
     description: 'Who to greet'
     required: true
     default: 'World'
-  abc:  # id of input
-    description: 'Who to greet'
-    required: true
-    default: 'World'
+# outputs:
+#   time: # id of output
+#     description: 'The time we greeted you'
+
+
+# runs:
+#   using: 'node12'
+#   main: 'dist/index.js'
+
+# runs:
+#   using: 'docker'
+#   image: 'Dockerfile'
+#   args:
+#     - ${{ inputs.who-to-greet }}
+#     - ${{ inputs.abc }}
+
 outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  random-number:
+    description: "Random number"
+    value: ${{ steps.random-number-generator.outputs.random-id }}
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.who-to-greet }}
-    - ${{ inputs.abc }}
+  using: "composite"
+  steps:
+    - id: random-number-generator
+      run: echo "::set-output name=random-id::$(echo $RANDOM)"
+      shell: bash
