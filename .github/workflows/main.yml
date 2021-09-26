@@ -48,9 +48,12 @@ jobs:
     - name: Install npm dependencies
       run: npm install
 
+    - name: install ncc
+      run: npm i -g @vercel/ncc
+
     - name: Run build task
       run: npm run build --if-present
-      
+
     - name: Deploy to Server
       uses: easingthemes/ssh-deploy@main
       env:
