@@ -48,9 +48,8 @@ jobs:
         port: ${{ secrets.PORT }}
         passphrase: ${{ secrets.PASSPHRASE }}
         script: |
-          touch abc.sh
-          ls -al
-          whoami
+          docker pull larmdev/nodejs-demo:latest
+          docker run --rm --name api -d -p 3000:3000 larmdev/nodejs-demo
 
   # build:
 
